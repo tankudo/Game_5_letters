@@ -1,4 +1,4 @@
-package com.company;
+package backend;
 
 public class NotCorrectSizeWordException extends Exception {
 

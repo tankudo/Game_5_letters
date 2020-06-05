@@ -1,7 +1,7 @@
 package com.company.test;
 
-import com.company.PlayWithUser;
-import com.company.NotCorrectSizeWordException;
+import backend.PlayWithUser;
+import backend.NotCorrectSizeWordException;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

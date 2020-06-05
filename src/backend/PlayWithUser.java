@@ -1,4 +1,4 @@
-package com.company;
+package backend;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -24,7 +24,7 @@ public class PlayWithUser extends ArtificialIntelligence{
     }
 
     public char[] guessTheWord() throws FileNotFoundException {
-        ArrayList<String> fiveLetterWords = readTheFile("freedict.txt");
+        ArrayList<String> fiveLetterWords = readTheFile("hu.txt");
         Random r = new Random();
         String randomWord = fiveLetterWords.get(r.nextInt(fiveLetterWords.size()));
         char[] randomWordLetters = randomWord.toCharArray();

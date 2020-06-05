@@ -1,4 +1,4 @@
-package com.company;
+package backend;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ public class Game {
         PlayWithUser playWithUser = new PlayWithUser();
         RandomGuess randomGuess = new RandomGuess();
         CleverGuess cleverGuess = new CleverGuess();
-        ArrayList<String> five = cleverGuess.readTheFile("freedict.txt");
+        ArrayList<String> five = cleverGuess.readTheFile("hu.txt");
         boolean flag = true;
         while (flag) {
             System.out.println("Would you like to play 5 letter word game? (Y/N) ");
