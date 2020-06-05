@@ -6,20 +6,25 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 
 public class WithWhoToPlay extends Menu implements LayoutManager, ActionListener {
     Image background;
     JFrame withWhoToPlay;
     JButton you;
     JButton computer;
+    JButton back;
     PlayWithUser playWithUser;
+    char [] secretWord;
 
     public WithWhoToPlay() {
         this.background = Toolkit.getDefaultToolkit().createImage(".jpg");
         this.withWhoToPlay = new JFrame();
-        you = new JButton("You");
+        this.you = new JButton("You");
         this.computer = new JButton("Computer");
-        playWithUser = new PlayWithUser();
+        this.playWithUser = new PlayWithUser();
+        this.back = new JButton("Back");
+        this.secretWord = new char[5];
     }
 
     @Override
@@ -30,14 +35,21 @@ public class WithWhoToPlay extends Menu implements LayoutManager, ActionListener
     }
 
     public void window() {
-        JPanel languagePanel = new JPanel(new GridLayout(2, 2, 50, 75));
+        JPanel languagePanel = new JPanel(new GridLayout(3, 2, 20, 30));
         languagePanel.setBackground(new Color(0, 0, 0, 0));
         languagePanel.add(new JLabel());
         languagePanel.add(new JLabel("Choose who guess the word"));
+        languagePanel.add(new JLabel());
+
         languagePanel.add(you);
         you.addActionListener(this);
         languagePanel.add(computer);
         computer.addActionListener(this);
+        languagePanel.add(new JLabel());
+        languagePanel.add(new JLabel());
+        languagePanel.add(new JLabel());
+        languagePanel.add(back);
+        back.addActionListener(this);
         add(languagePanel);
     }
 
@@ -45,7 +57,7 @@ public class WithWhoToPlay extends Menu implements LayoutManager, ActionListener
 
         withWhoToPlay = new JFrame();
         withWhoToPlay.setTitle("Player choice");
-        withWhoToPlay.setSize(750, 450);
+        withWhoToPlay.setSize(750, 250);
         withWhoToPlay.setVisible(true);
         withWhoToPlay.setContentPane(this);
         withWhoToPlay.setResizable(false);
@@ -84,8 +96,20 @@ public class WithWhoToPlay extends Menu implements LayoutManager, ActionListener
         if (e.getActionCommand().equals("You")) {
             PlayWithUserGame playWithUserGame = new PlayWithUserGame();
             playWithUserGame.frameWindow();
+            try {
+               secretWord = playWithUser.guessTheWord();
+            } catch (FileNotFoundException ex) {
+                ex.printStackTrace();
+            }
         } else if (e.getActionCommand().equals("Computer")) {
 
         }
+        else if (e.getActionCommand().equals("Back")){
+            withWhoToPlay.setVisible(false);
+        }
+    }
+
+    public char[] getSecretWord() {
+        return secretWord;
     }
 }

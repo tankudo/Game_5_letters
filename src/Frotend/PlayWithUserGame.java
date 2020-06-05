@@ -1,5 +1,6 @@
 package Frotend;
 
+import backend.NotCorrectSizeWordException;
 import backend.PlayWithUser;
 
 import javax.swing.*;
@@ -12,34 +13,18 @@ public class PlayWithUserGame extends Menu implements LayoutManager, ActionListe
     Image background;
     PlayWithUser playWithUser;
     JTextField giveMeAWord;
-    JFrame choseLanguage;
+    JFrame playWhithUserGame;
     JButton checkWord;
+    WithWhoToPlay withWhoToPlay;
+    JButton back;
 
     public PlayWithUserGame() {
         this.background = Toolkit.getDefaultToolkit().createImage(".jpg");
-        this.playWithUser = new PlayWithUser();
         this.giveMeAWord = new JTextField();
         this.checkWord = new JButton("Check your word");
+        this.back = new JButton("Back");
+        this.withWhoToPlay = new WithWhoToPlay();
 
-    }
-
-    public void frameWindow() {
-        choseLanguage = new JFrame();
-        choseLanguage.setTitle("Play with user");
-        choseLanguage.setSize(350, 70);
-        choseLanguage.setVisible(true);
-        choseLanguage.setContentPane(this);
-        choseLanguage.setResizable(false);
-        choseLanguage.setLocationRelativeTo(null);
-        window();
-    }
-
-    public void window() {
-        JPanel languagePanel = new JPanel(new GridLayout(1, 2, 5, 75));
-        languagePanel.setBackground(new Color(0, 0, 0, 0));
-        languagePanel.add(giveMeAWord);
-        languagePanel.add(checkWord);
-        add(languagePanel);
     }
 
     @Override
@@ -47,6 +32,33 @@ public class PlayWithUserGame extends Menu implements LayoutManager, ActionListe
         repaint();
         g.drawImage(background, 0, 0, getWidth(), getHeight(), null);
     }
+
+    public void window() {
+        JPanel playUser = new JPanel(new GridLayout(3, 3, 5, 20));
+        playUser.setBackground(new Color(0, 0, 0, 0));
+        playUser.add(giveMeAWord);
+        playUser.add(checkWord);
+        checkWord.addActionListener(this);
+        playUser.add(new JLabel());
+        playUser.add(new JLabel());
+        playUser.add(new JLabel());
+        playUser.add(back);
+        back.addActionListener(this);
+        add(playUser);
+    }
+
+
+    public void frameWindow() {
+        playWhithUserGame = new JFrame();
+        playWhithUserGame.setTitle("Play with user");
+        playWhithUserGame.setSize(450, 270);
+        playWhithUserGame.setVisible(true);
+        playWhithUserGame.setContentPane(this);
+        playWhithUserGame.setResizable(false);
+        playWhithUserGame.setLocationRelativeTo(null);
+        window();
+    }
+
 
     @Override
     public void addLayoutComponent(String name, Component comp) {
@@ -75,6 +87,39 @@ public class PlayWithUserGame extends Menu implements LayoutManager, ActionListe
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        playWithUser = new PlayWithUser();
+        if (e.getActionCommand().equals("Check your word")) {
+            try {
+                //withWhoToPlay.getSecretWord()
+                String kutya = "kutya";
+                char [] kutyaC = kutya.toCharArray();
+                int check = playWithUser.checkTheWord(kutyaC, giveMeAWord.getText());
+                String[][] data = new String[2][2];
+                data[0][0] = giveMeAWord.getText();
+                data[0][1] = Integer.toString(check);
+                data[1][0] = null;
+                data[1][1] = null;
 
+                // Column Names
+                String[] columnNames = {"Your try", "result"};
+
+                // Initializing the JTable
+                JFrame f = new JFrame();
+                JTable j = new JTable(data, columnNames);
+                j.setBounds(30, 40, 200, 300);
+                f.setSize(500, 200);
+                f.setLocationRelativeTo(null);
+
+                JScrollPane sp = new JScrollPane(j);
+                f.add(sp);
+                f.setVisible(true);
+
+            } catch (NotCorrectSizeWordException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
+        }
+        if (e.getActionCommand().equals("Back")) {
+            playWhithUserGame.setVisible(false);
+        }
     }
 }
