@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
-public class ChooseYourLanguage extends Menu implements LayoutManager, ActionListener {
+public class ChooseYourLanguage extends Menu implements ActionListener {
     Image gameBackground;
     JFrame choseLanguage;
     JButton english;
@@ -66,32 +66,6 @@ public class ChooseYourLanguage extends Menu implements LayoutManager, ActionLis
     }
 
     @Override
-    public void addLayoutComponent(String name, Component comp) {
-
-    }
-
-    @Override
-    public void removeLayoutComponent(Component comp) {
-
-    }
-
-    @Override
-    public Dimension preferredLayoutSize(Container parent) {
-        return null;
-    }
-
-    @Override
-    public Dimension minimumLayoutSize(Container parent) {
-        return null;
-    }
-
-    @Override
-    public void layoutContainer(Container parent) {
-
-
-    }
-
-    @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("English")) {
             String filepath = "en.txt";
@@ -108,7 +82,8 @@ public class ChooseYourLanguage extends Menu implements LayoutManager, ActionLis
             WithWhoToPlay withWhoToPlay = new WithWhoToPlay();
             withWhoToPlay.frameWindow();
             try {
-                ArrayList<String> re = ai.readTheFile(filepath);
+                ArrayList<String> ru = ai.readTheFile(filepath);
+                System.out.println(ru.size());
             } catch (FileNotFoundException ex) {
                 ex.printStackTrace();
             }
@@ -118,6 +93,7 @@ public class ChooseYourLanguage extends Menu implements LayoutManager, ActionLis
             withWhoToPlay.frameWindow();
             try {
                 ArrayList<String> hu = ai.readTheFile(filepath);
+                System.out.println(hu.size());
             } catch (FileNotFoundException ex) {
                 ex.printStackTrace();
             }

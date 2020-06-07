@@ -4,33 +4,36 @@ import backend.NotCorrectSizeWordException;
 import backend.PlayWithUser;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 
-public class PlayWithUserGame extends Menu implements LayoutManager, ActionListener {
+public class PlayWithUserGame extends Menu implements ActionListener {
 
     Image background;
     PlayWithUser playWithUser;
     JTextField giveMeAWord;
     JFrame pUserG;
     JButton checkWord;
+    JButton showWord;
     WithWhoToPlay withWhoToPlay;
     JButton back;
+    JPanel playUser;
     //JTable
     JTable table;
-    DefaultTableModel model = new DefaultTableModel();
+    DefaultTableModel model;
     JScrollPane scroll;
-    String headers[] = {"Your try", "result"};
+    String[] headers = {"Your try", "result"};
     String[] data = {"", ""};
-    ArrayList<String> ar;
+    ArrayList<String> ar = new ArrayList<>();
+
 
     public void insert() {
-        for (int i = 0; i < data.length; i++) {
-            ar.add(data[i]);
-        }
+        ar.addAll(Arrays.asList(data));
 
         for (int i = 0; i < (ar.size() / 2); i++) {
             model.addRow(new Object[]{String.valueOf(ar.get(2 * i)),
@@ -38,12 +41,21 @@ public class PlayWithUserGame extends Menu implements LayoutManager, ActionListe
         }
     }
 
-    public PlayWithUserGame() {
+    public PlayWithUserGame(WithWhoToPlay whtp) {
+        this.withWhoToPlay = whtp;
         this.background = Toolkit.getDefaultToolkit().createImage(".jpg");
         this.giveMeAWord = new JTextField();
         this.checkWord = new JButton("Check your word");
         this.back = new JButton("Back");
-        this.withWhoToPlay = new WithWhoToPlay();
+        //this.withWhoToPlay = new WithWhoToPlay();
+        this.showWord = new JButton("Show me the word");
+        this.setLayout(new BorderLayout());
+        setBorder(new LineBorder(Color.GREEN, 3));
+        table = new JTable();
+        scroll = new JScrollPane(table);
+        scroll.setSize(300, 300);
+        scroll.setBorder(new LineBorder(Color.BLACK, 3));
+        this.add(scroll, BorderLayout.CENTER);
 
 
     }
@@ -55,55 +67,32 @@ public class PlayWithUserGame extends Menu implements LayoutManager, ActionListe
     }
 
     public void window() {
-        JPanel playUser = new JPanel(new GridLayout(3, 3, 5, 20));
+        playUser = new JPanel(new GridLayout(3, 3, 5, 10));
         playUser.setBackground(new Color(0, 0, 0, 0));
         playUser.add(giveMeAWord);
         playUser.add(checkWord);
         checkWord.addActionListener(this);
-        playUser.add(new JLabel());
+        playUser.add(showWord);
+        showWord.addActionListener(this);
         playUser.add(new JLabel());
         playUser.add(new JLabel());
         playUser.add(back);
         back.addActionListener(this);
-        add(playUser);
+        playUser.setBorder(new LineBorder(Color.RED, 3));
+        add(playUser, BorderLayout.NORTH);
+
     }
 
 
     public void frameWindow() {
         pUserG = new JFrame();
         pUserG.setTitle("5 letters word");
-        pUserG.setSize(450, 270);
+        pUserG.setSize(900, 600);
         pUserG.setVisible(true);
-        pUserG.setContentPane(this);
+        pUserG.add(this, BorderLayout.CENTER);
         pUserG.setResizable(false);
         pUserG.setLocationRelativeTo(null);
         window();
-    }
-
-
-    @Override
-    public void addLayoutComponent(String name, Component comp) {
-
-    }
-
-    @Override
-    public void removeLayoutComponent(Component comp) {
-
-    }
-
-    @Override
-    public Dimension preferredLayoutSize(Container parent) {
-        return null;
-    }
-
-    @Override
-    public Dimension minimumLayoutSize(Container parent) {
-        return null;
-    }
-
-    @Override
-    public void layoutContainer(Container parent) {
-
     }
 
     @Override
@@ -115,42 +104,21 @@ public class PlayWithUserGame extends Menu implements LayoutManager, ActionListe
                 data[0] = String.valueOf(check);
                 data[1] = giveMeAWord.getText();
                 //JTable
-                table = new JTable();
+
+                model = new DefaultTableModel();
                 model.setColumnIdentifiers(headers);
-                table.setModel(model);
-                scroll = new JScrollPane(table);
-                ar = new ArrayList<>();
-
-                add(scroll, BorderLayout.NORTH);
-                setSize(300, 300);
-                setVisible(true);
-
-//                String[][] data = new String[2][2];
-//                data[0][0] = giveMeAWord.getText();
-//                data[0][1] = Integer.toString(check);
-//                data[1][0] = null;
-//                data[1][1] = null;
-//
-//                // Column Names
-//                String[] columnNames = {"Your try", "result"};
-//
-//                // Initializing the JTable
-//                JFrame f = new JFrame();
-//                JTable j = new JTable(data, columnNames);
-//                j.setBounds(30, 40, 200, 300);
-//                f.setSize(500, 200);
-//                f.setLocationRelativeTo(null);
-//
-//                JScrollPane sp = new JScrollPane(j);
-//                f.add(sp);
-//                f.setVisible(true);
                 insert();
+                table.setModel(model);
+
             } catch (NotCorrectSizeWordException ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }
         }
         if (e.getActionCommand().equals("Back")) {
             pUserG.setVisible(false);
+        }
+        if (e.getActionCommand().equals("Show me the word")) {
+            JOptionPane.showMessageDialog(null, String.valueOf(withWhoToPlay.getSecretWord()));
         }
     }
 }

@@ -23,7 +23,7 @@ public class PlayWithUser extends ArtificialIntelligence {
 //    }
 
     public char[] guessTheWord() throws FileNotFoundException {
-        ArrayList<String> fiveLetterWords = readTheFile("hu.txt");
+        ArrayList<String> fiveLetterWords = readTheFile("hu.txt");//TODO change method to get any dictionary
         Random r = new Random();
         String randomWord = fiveLetterWords.get(r.nextInt(fiveLetterWords.size()));
         char[] randomWordLetters = randomWord.toCharArray();

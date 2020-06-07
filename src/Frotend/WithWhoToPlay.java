@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 
-public class WithWhoToPlay extends Menu implements LayoutManager, ActionListener {
+public class WithWhoToPlay extends Menu implements ActionListener {
     Image background;
     JFrame withWhoToPlay;
     JButton you;
@@ -65,36 +65,10 @@ public class WithWhoToPlay extends Menu implements LayoutManager, ActionListener
         window();
     }
 
-
-    @Override
-    public void addLayoutComponent(String name, Component comp) {
-
-    }
-
-    @Override
-    public void removeLayoutComponent(Component comp) {
-
-    }
-
-    @Override
-    public Dimension preferredLayoutSize(Container parent) {
-        return null;
-    }
-
-    @Override
-    public Dimension minimumLayoutSize(Container parent) {
-        return null;
-    }
-
-    @Override
-    public void layoutContainer(Container parent) {
-
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("You")) {
-            PlayWithUserGame playWithUserGame = new PlayWithUserGame();
+            PlayWithUserGame playWithUserGame = new PlayWithUserGame(this);
             playWithUserGame.frameWindow();
             try {
                secretWord = playWithUser.guessTheWord();
